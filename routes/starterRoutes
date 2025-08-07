@@ -1,0 +1,111 @@
+const express = require("express");
+const router = express.Router();
+const sqlite3 = require("sqlite3").verbose();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
+require("dotenv").config();
+const authenticateToken=require("../middelware/authenticateToken.js")
+
+
+//Connect to database
+const db = new sqlite3.Database(process.env.DATABASE);
+
+
+// db.run(`CREATE TABLE starters(
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     starterName VARCHAR(255) NOT NULL,
+//     starterPrice INTERGER NOT NULL,
+//     starterDescripton VARCHAR(355) NOT NULL,
+//     created DATETIME DEFAULT CURRENT_TIMESTAMP
+// )`
+// );
+
+//Skapa ny starter (POST)
+router.post ("/starters", async (req, res) => {  //authenticateToken,
+    try {const {starterName, starterPrice, starterDescription} = req.body;
+    // let country = req.body.country;
+    // let colors = req.body.colors;
+ 
+
+    //error handling, felhanterare som skapar felmeddelande
+
+    let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!starterName|| ! starterPrice ||!starterDescription){
+        errors.message = "Country and colors not included";
+        errors.detail= "You must include colors and countrys in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        return res.status(400).json(errors); }        
+           
+
+    //Lägg till flagga till databasen om inget har gått fel, man har med alla data som man ska ha
+
+    const sql = `INSERT INTO starters (starterName, starterPrice, starterDescription) VALUES(?,?,?)`;
+        
+        db.run (sql, [starterName, starterPrice, starterDescription],  
+        (error) =>{
+            if(error) {
+                res.status(500).json({error: "Something went wrong"});
+                // return;
+            } else {
+            // console.log("Fråga skapad: " );
+    
+
+           let starter = {  
+            starterName: starterName, 
+            starterPrice: starterPrice, 
+            starterDescription: starterDescription
+          
+     
+         }
+     
+     
+         res.status(200).json({message: "Starter added"+starter}); //flag
+    }})
+        }catch {
+            res.status(500).json ({error:"fel på starterserver"})
+        }
+    });
+
+
+    
+        //Hämta alla flaggor (GET)
+router.get ("/starters",async (req, res) => {  //authenticateToken,
+    try {
+    
+     db.all("SELECT * FROM starters ORDER BY starterName;", (error,results)=> {
+    if(error) {
+        res.status(500).json({error: "Something went wrong"+error});
+        return;
+    }
+    // console.log(results);
+    if(results.length ===0) {
+        res.status(404).json({message: "No starters found"})
+    } else {
+        res.json(results);
+    }
+    
+})
+   
+}catch{
+    res.status(500).json ({error:"fel på starterserver"})
+}
+});
+
+
+
+module.exports=router;
+
+
+
+
+

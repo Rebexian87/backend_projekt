@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require ("body-parser");
 const authRoutes =require("./routes/authRoutes")
+const starterRoutes =require("./routes/starterRoutes")
 const jwt = require("jsonwebtoken")
 const cors = require ("cors")
 const sqlite3 = require("sqlite3").verbose();
@@ -23,6 +24,7 @@ app.use(cors());
 
 //Routes
 app.use("/api", authRoutes);
+app.use("/api", starterRoutes);
 
 //Protected route
 app.get("/api/protected", authenticateToken, (req,res) => {
@@ -31,23 +33,6 @@ app.get("/api/protected", authenticateToken, (req,res) => {
 
 
 
-// validate token
-function authenticateToken(req,res,next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; //Vårt token, tar bort bearer och mellanslag
-
-    if(token == null) res.status(401).json({message:"Not authorized for this route - token missing"});
-
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (error, username) => {
-    if(error) return res.status(403).json({message:"invalid JWT"});
-
-        req.username = username;
-        next();
-
-
-})
-
-}
 
 //Start application
 app.listen(port, () => {
