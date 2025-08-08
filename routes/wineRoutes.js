@@ -69,5 +69,30 @@ router.post ("/wine", async (req, res) => {  //authenticateToken,
     });
 
 
+            //Hämta alla vin (GET)
+router.get ("/wine",async (req, res) => {  //authenticateToken,
+    try {
+    
+     db.all("SELECT * FROM wine ORDER BY wineName;", (error,results)=> {
+    if(error) {
+        res.status(500).json({error: "Something went wrong"+error});
+        return;
+    }
+    // console.log(results);
+    if(results.length ===0) {
+        res.status(404).json({message: "No wine found"})
+    } else {
+        res.json(results);
+    }
+    
+})
+   
+}catch{
+    res.status(500).json ({error:"fel på starterserver"})
+}
+});
+
+
+
 
 module.exports=router;

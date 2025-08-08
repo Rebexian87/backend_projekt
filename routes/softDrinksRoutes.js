@@ -66,6 +66,30 @@ router.post ("/softDrink", async (req, res) => {  //authenticateToken,
         }
     });
 
+                //Hämta alla sodas (GET)
+router.get ("/softDrink",async (req, res) => {  //authenticateToken,
+    try {
+    
+     db.all("SELECT * FROM softDrinks ORDER BY softDrinkName;", (error,results)=> {
+    if(error) {
+        res.status(500).json({error: "Something went wrong"+error});
+        return;
+    }
+    // console.log(results);
+    if(results.length ===0) {
+        res.status(404).json({message: "No sodas found"})
+    } else {
+        res.json(results);
+    }
+    
+})
+   
+}catch{
+    res.status(500).json ({error:"fel på starterserver"})
+}
+});
+
+
 
 
 module.exports=router;

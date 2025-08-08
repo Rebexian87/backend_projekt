@@ -66,7 +66,28 @@ router.post ("/drinkAlkohol", async (req, res) => {  //authenticateToken,
             res.status(500).json ({error:"fel på coffeeserver"})
         }
     });
-
+                    //Hämta alla drinkAlkohol (GET)
+router.get ("/drinkAlkohol",async (req, res) => {  //authenticateToken,
+    try {
+    
+     db.all("SELECT * FROM drinkAlkohol ORDER BY drinkAlkoholName;", (error,results)=> {
+    if(error) {
+        res.status(500).json({error: "Something went wrong"+error});
+        return;
+    }
+    // console.log(results);
+    if(results.length ===0) {
+        res.status(404).json({message: "No drinks found"})
+    } else {
+        res.json(results);
+    }
+    
+})
+   
+}catch{
+    res.status(500).json ({error:"fel på starterserver"})
+}
+});
 
 
 
