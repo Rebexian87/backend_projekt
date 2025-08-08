@@ -87,6 +87,24 @@ router.get ("/mainCourses",async (req, res) => {  //authenticateToken,
 }
 });
 
+router.delete ("/mainCourses/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM mainCourse WHERE id=${id};`, 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "MainCourse not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "MainCourse deleted:"+req.params.id});
+        })
+    
+});
+
 
 
 

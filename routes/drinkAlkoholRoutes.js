@@ -89,6 +89,23 @@ router.get ("/drinkAlkohol",async (req, res) => {  //authenticateToken,
 }
 });
 
+router.delete ("/drinkAlkohol/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM drinkAlkohol WHERE id=${id};`, 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "Drink not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "Drink deleted:"+req.params.id});
+        })
+    
+});
 
 
 module.exports=router;

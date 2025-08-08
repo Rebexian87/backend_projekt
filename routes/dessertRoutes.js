@@ -91,4 +91,23 @@ router.post ("/dessert", async (req, res) => {  //authenticateToken,
 });
 
 
+router.delete ("/dessert/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM dessert WHERE id=${id};`, 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "dessert not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "Dessert deleted:"+req.params.id});
+        })
+    
+});
+
+
 module.exports=router;

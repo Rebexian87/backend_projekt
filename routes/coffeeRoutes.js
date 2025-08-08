@@ -90,6 +90,24 @@ router.post ("/coffee", async (req, res) => {  //authenticateToken,
 });
 
 
+router.delete ("/coffee/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM coffee WHERE id=${id};`, 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "coffee not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "coffee deleted:"+req.params.id});
+        })
+    
+});
+
 
 
 module.exports=router;

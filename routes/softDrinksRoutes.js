@@ -89,6 +89,24 @@ router.get ("/softDrink",async (req, res) => {  //authenticateToken,
 }
 });
 
+router.delete ("/softDrink/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM softDrinks WHERE id=${id};`, 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "Soda not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "Soda deleted:"+req.params.id});
+        })
+    
+});
+
 
 
 

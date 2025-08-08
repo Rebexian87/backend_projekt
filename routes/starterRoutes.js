@@ -156,6 +156,24 @@ router.get ("/starters",async (req, res) => {  //authenticateToken,
 }
 });
 
+router.delete ("/starters/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM starters WHERE id=${id};`, 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "Starter not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "Starter deleted:"+req.params.id});
+        })
+    
+});
+
 
 
 
