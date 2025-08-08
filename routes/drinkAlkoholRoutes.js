@@ -60,7 +60,7 @@ router.post ("/drinkAlkohol", async (req, res) => {  //authenticateToken,
          }
      
      
-         res.status(201).json({message: "Coffee added", drink}); 
+         res.status(201).json({message: "Drink added", drink}); 
     }})
         }catch {
             res.status(500).json ({error:"fel på coffeeserver"})
