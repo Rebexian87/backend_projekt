@@ -20,10 +20,10 @@ db.run("DROP TABLE IF EXISTS mainCourse");
 db.run("DROP TABLE IF EXISTS dessert");
 
 
-db.run("DROP TABLE IF EXISTS drinkWithAlkohol");
+db.run("DROP TABLE IF EXISTS drinkAlkohol");
 
-
-db.run("DROP TABLE IF EXISTS drinkWithoutAlkohol");
+db.run("DROP TABLE IF EXISTS wine");
+db.run("DROP TABLE IF EXISTS softDrinks");
 
 
 db.run("DROP TABLE IF EXISTS coffee");
@@ -68,25 +68,36 @@ db.run(`CREATE TABLE dessert(
 )`
 );
 console.log("4");
-db.run(`CREATE TABLE drinkWithAlkohol(
+db.run(`CREATE TABLE wine(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    drinkWithAlkoholName VARCHAR(255) NOT NULL,
-    drinkWithAlkoholPrice INTEGER NOT NULL,
-    drinkWithAlkoholPrice2 INTEGER NOT NULL,
-    drinkWithAlkoholDescription VARCHAR(355) NOT NULL,
+    wineName VARCHAR(255) NOT NULL,
+    winePrice INTEGER NOT NULL,
+    winePrice2 INTEGER NOT NULL,
+    wineDescription VARCHAR(355) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
 );
 console.log("5");
-db.run(`CREATE TABLE drinkWithoutAlkohol(
+
+db.run(`CREATE TABLE drinkAlkohol(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    drinkWithoutAlkoholName VARCHAR(255) NOT NULL,
-    drinkWithoutAlkoholPrice INTEGER NOT NULL,
-    drinkWithoutAlkoholDescription VARCHAR(355) NOT NULL,
+    drinkAlkoholName VARCHAR(255) NOT NULL,
+    drinkAlkoholPrice INTEGER NOT NULL,
+    drinkAlkoholDescription VARCHAR(355) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
 );
 console.log("6");
+
+db.run(`CREATE TABLE softDrinks(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    softDrinkName VARCHAR(255) NOT NULL,
+    softDrinkPrice INTEGER NOT NULL,
+   softDrinkDescription VARCHAR(355) NOT NULL,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP
+)`
+);
+console.log("7");
 db.run(`CREATE TABLE coffee(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     coffeeName VARCHAR(255) NOT NULL,
@@ -95,7 +106,7 @@ db.run(`CREATE TABLE coffee(
     created DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
 );
-console.log("7");
+console.log("8");
 });
 
 
