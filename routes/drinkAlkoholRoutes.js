@@ -11,4 +11,63 @@ const authenticateToken=require("../middelware/authenticateToken.js")
 const db = new sqlite3.Database(process.env.DATABASE);
 
 
+//Skapa ny drink (POST)
+router.post ("/drinkAlkohol", async (req, res) => {  //authenticateToken,
+    try {const {drinkAlkoholName, drinkAlkoholPrice, drinkAlkoholDescription} = req.body;
+    // let country = req.body.country;
+    // let colors = req.body.colors;
+ 
+
+    //error handling, felhanterare som skapar felmeddelande
+
+    let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!drinkAlkoholName|| ! drinkAlkoholPrice ||!drinkAlkoholDescription){
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        return res.status(400).json(errors); }        
+           
+
+    //Lägg till drink till databasen om inget har gått fel, man har med alla data som man ska ha
+
+    const sql = `INSERT INTO drinkAlkohol (drinkAlkoholName, drinkAlkoholPrice, drinkAlkoholDescription) VALUES(?,?,?)`;
+        
+        db.run (sql, [drinkAlkoholName, drinkAlkoholPrice, drinkAlkoholDescription],  
+        (error) =>{
+            if(error) {
+                res.status(500).json({error: "Something went wrong"});
+                // return;
+            } else {
+            // console.log("Fråga skapad: " );
+    
+
+           let drink= {  
+           drinkAlkoholName:drinkAlkoholName,
+           drinkAlkoholPrice:drinkAlkoholPrice,
+           drinkAlkoholDescription:drinkAlkoholDescription
+          
+     
+         }
+     
+     
+         res.status(201).json({message: "Coffee added", drink}); 
+    }})
+        }catch {
+            res.status(500).json ({error:"fel på coffeeserver"})
+        }
+    });
+
+
+
+
 module.exports=router;

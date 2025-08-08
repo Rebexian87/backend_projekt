@@ -57,7 +57,7 @@ router.post ("/mainCourses", async (req, res) => {  //authenticateToken,
          }
      
      
-         res.status(200).json({message: "Flag added"+mainCourse}); //flag
+         res.status(200).json({message: "Maincourse added", mainCourse}); //flag
     }})
         }catch {
             res.status(500).json ({error:"fel på flaggserver"})

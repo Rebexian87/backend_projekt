@@ -102,7 +102,7 @@ db.run(`CREATE TABLE coffee(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     coffeeName VARCHAR(255) NOT NULL,
     coffeePrice INTEGER NOT NULL,
-    coffeeDescripton VARCHAR(355) NOT NULL,
+    coffeeDescription VARCHAR(355) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
 );

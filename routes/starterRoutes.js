@@ -53,16 +53,16 @@ router.post ("/starters", async (req, res) => {  //authenticateToken,
             // console.log("Fråga skapad: " );
     
 
-        //    let starter = {  
-        //     starterName: starterName, 
-        //     starterPrice: starterPrice, 
-        //     starterDescription: starterDescription
+           let starter = {  
+            sName: sName, 
+            sPrice: sPrice, 
+            sDescription: sDescription
           
      
-        //  }
+         }
      
      
-         res.status(200).json({message: "Starter added"}); //flag
+         res.status(201).json({message: "Starter added", starter} ); //flag
     }})
         }catch {
             res.status(500).json ({error:"fel på starterserver"})
