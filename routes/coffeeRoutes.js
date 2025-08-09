@@ -108,6 +108,73 @@ router.delete ("/coffee/:id", (req, res) => {
     
 });
 
+//Uppdatera coffee för ett specifikt id (PUT)
+router.put ("/coffee/:id", (req, res) => {
+
+        const {coffeeName, coffeePrice, coffeeDescription} = req.body;
+        const id= req.params.id;
+          
+    
+    // let sName = req.body.sName;
+    // let sPrice = req.body.sPrice;
+    // let sDescription = req.body.sDescription;
+
+       let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!coffeeName || !coffeePrice || !coffeeDescription ){
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        res.status(400).json(errors);
+        
+        
+        
+        return;    
+    
+    } else {
+
+
+
+    //UPDATE coffee;
+
+    const sql = `UPDATE coffee SET coffeeName=?, coffeePrice=?, coffeeDescription=? WHERE id=${id}` ;
+       
+               db.run (sql, [coffeeName, coffeePrice, coffeeDescription],  
+           function(error){ 
+            if (error) {
+                res.status(500).json({error: "Something went wrong"+error});
+                return;
+            } else if (this.changes == 0) {
+                res.status(404).json("product not found") 
+            } 
+            
+            else{
+
+            console.log("Fråga skapad: " ) 
+    
+                
+           let coffee = {  
+            coffeeName: coffeeName,
+            coffeePrice: coffeePrice,
+            coffeeDescription:coffeeDescription,
+     
+         }
+     
+       res.status(200).json({message: "Drink updated", coffee});
+        
+        }}
+) }
+})
+
 
 
 module.exports=router;

@@ -112,5 +112,72 @@ router.delete ("/wine/:id", (req, res) => {
     
 });
 
+//Uppdatera wine för ett specifikt id (PUT)
+router.put ("/wine/:id", (req, res) => {
+
+        const {wineName,winePrice, winePrice2, wineDescription} = req.body;
+        const id= req.params.id;
+          
+    
+    // let sName = req.body.sName;
+    // let sPrice = req.body.sPrice;
+    // let sDescription = req.body.sDescription;
+
+       let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!wineName || !winePrice || !winePrice2 ||!wineDescription){
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        res.status(400).json(errors);
+        
+        
+        
+        return;    
+    
+    } else {
+
+
+
+    //UPDATE wine;
+
+    const sql = `UPDATE wine SET wineName=?, winePrice=?, winePrice2=?, wineDescription=? WHERE id=${id}` ;
+       
+               db.run (sql, [wineName, winePrice, winePrice2, wineDescription],  
+           function(error){ 
+            if (error) {
+                res.status(500).json({error: "Something went wrong"+error});
+                return;
+            } else if (this.changes == 0) {
+                res.status(404).json("product not found") 
+            } 
+            
+            else{
+
+            console.log("Fråga skapad: " ) 
+    
+                
+           let wine = {  
+            wineName: wineName,
+            winePrice: winePrice,
+            winePrice2:winePrice2,
+            wineDescription:wineDescription,
+     
+         }
+     
+       res.status(200).json({message: "Wine updated", wine});
+        
+        }}
+) }
+})
 
 module.exports=router;

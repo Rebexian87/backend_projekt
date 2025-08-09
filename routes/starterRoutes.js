@@ -69,68 +69,6 @@ router.post ("/starters", async (req, res) => {  //authenticateToken,
         }
     });
 
-//Uppdatera användare för ett specifikt id (PUT)
-router.put ("/starters/:id", (req, res) => {
-    
-    let sName = req.body.sName;
-    let sPrice = req.body.sPrice;
-    let sDescription = req.body.sDescription;
-
-       let errors= {
-        message: "",
-        detail: "",
-        https_response: {
-
-        }
-    }
-
-    if (!sName || !sPrice || !sDescription ){
-        errors.message = "Companyname, jobtitle and location not included";
-        errors.detail= "You must include companyname, jobtitle and location in JSON"
-
-        errors.https_response.message = "Bad Request";
-        errors.https_response.code=400;
-
-        res.status(400).json(errors);
-        
-        
-        
-        return;    
-    
-    }
-
-
-
-    //UPDATE workexperience;
-
-    const sql = (`UPDATE starters SET sName=?, sPrice=?, sDescription=? WHERE id=${req.params.id}` ,  [sName, sPrice, sDescription], 
-       
-               db.run (sql, [sName, sPrice, sDescription],  
-           function(error){ 
-            if (error) {
-                res.status(500).json({error: "Something went wrong"+error});
-                return;
-            } else {
-
-            console.log("Fråga skapad: " + results), 
-    
-                
-        //    let starter = {  
-        //     sName: sName,
-        //     sPrice: sPrice,
-        //     sDescription:sDescription,
-     
-        //  }
-     
-       res.json({message: "Starter updated"});
-        
-        }})
-)
-})
-
-    // res.json({message: "Workexperience updated:"+req.params.id});
-
-
 
     
         //Hämta alla flaggor (GET)
@@ -173,6 +111,79 @@ router.delete ("/starters/:id", (req, res) => {
         })
     
 });
+
+
+
+//Uppdatera starter för ett specifikt id (PUT)
+router.put ("/starters/:id", (req, res) => {
+
+        const {sName, sPrice, sDescription} = req.body;
+        const id= req.params.id;
+          
+    
+    // let sName = req.body.sName;
+    // let sPrice = req.body.sPrice;
+    // let sDescription = req.body.sDescription;
+
+       let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!sName || !sPrice || !sDescription ){
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        res.status(400).json(errors);
+        
+        
+        
+        return;    
+    
+    } else {
+
+
+
+    //UPDATE starter;
+
+    const sql = `UPDATE starters SET sName=?, sPrice=?, sDescription=? WHERE id=${id}` ;
+       
+               db.run (sql, [sName, sPrice, sDescription],  
+           function(error){ 
+            if (error) {
+                res.status(500).json({error: "Something went wrong"+error});
+                return;
+            } else if (this.changes == 0) {
+                res.status(404).json("product not found") 
+            } 
+            
+            else{
+
+            console.log("Fråga skapad: " ) 
+    
+                
+           let starter = {  
+            sName: sName,
+            sPrice: sPrice,
+            sDescription:sDescription,
+     
+         }
+     
+       res.status(200).json({message: "Starter updated", starter});
+        
+        }}
+) }
+})
+
+
+
+
 
 
 

@@ -107,5 +107,76 @@ router.delete ("/drinkAlkohol/:id", (req, res) => {
     
 });
 
+//Uppdatera drinkAlkohol för ett specifikt id (PUT)
+router.put ("/drinkAlkohol/:id", (req, res) => {
+
+        const {drinkAlkoholName, drinkAlkoholPrice, drinkAlkoholDescription} = req.body;
+        const id= req.params.id;
+          
+    
+    // let sName = req.body.sName;
+    // let sPrice = req.body.sPrice;
+    // let sDescription = req.body.sDescription;
+
+       let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!drinkAlkoholName || !drinkAlkoholPrice || !drinkAlkoholDescription ){
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        res.status(400).json(errors);
+        
+        
+        
+        return;    
+    
+    } else {
+
+
+
+    //UPDATE drinkAlkohol;
+
+    const sql = `UPDATE drinkAlkohol SET drinkAlkoholName=?, drinkAlkoholPrice=?, drinkAlkoholDescription=? WHERE id=${id}` ;
+       
+               db.run (sql, [drinkAlkoholName, drinkAlkoholPrice, drinkAlkoholDescription],  
+           function(error){ 
+            if (error) {
+                res.status(500).json({error: "Something went wrong"+error});
+                return;
+            } else if (this.changes == 0) {
+                res.status(404).json("product not found") 
+            } 
+            
+            else{
+
+            console.log("Fråga skapad: " ) 
+    
+                
+           let drinkAlkohol = {  
+            drinkAlkoholName: drinkAlkoholName,
+            drinkAlkoholPrice: drinkAlkoholPrice,
+            drinkAlkoholDescription:drinkAlkoholDescription,
+     
+         }
+     
+       res.status(200).json({message: "Drink updated", drinkAlkohol});
+        
+        }}
+) }
+})
+
+
+
+
+
 
 module.exports=router;

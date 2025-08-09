@@ -108,6 +108,76 @@ router.delete ("/softDrink/:id", (req, res) => {
 });
 
 
+//Uppdatera softDrink för ett specifikt id (PUT)
+router.put ("/softDrink/:id", (req, res) => {
+
+        const {softDrinkName, softDrinkPrice, softDrinkDescription} = req.body;
+        const id= req.params.id;
+          
+    
+    // let sName = req.body.sName;
+    // let sPrice = req.body.sPrice;
+    // let sDescription = req.body.sDescription;
+
+       let errors= {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    }
+
+    if (!softDrinkName || !softDrinkPrice || !softDrinkDescription ){
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
+
+        errors.https_response.message = "Bad Request";
+        errors.https_response.code=400;
+
+        res.status(400).json(errors);
+        
+        
+        
+        return;    
+    
+    } else {
+
+
+
+    //UPDATE softDrink;
+
+    const sql = `UPDATE softDrinks SET softDrinkName=?, softDrinkPrice=?, softDrinkDescription=? WHERE id=${id}` ;
+       
+               db.run (sql, [softDrinkName, softDrinkPrice, softDrinkDescription],  
+           function(error){ 
+            if (error) {
+                res.status(500).json({error: "Something went wrong"+error});
+                return;
+            } else if (this.changes == 0) {
+                res.status(404).json("product not found") 
+            } 
+            
+            else{
+
+            console.log("Fråga skapad: " ) 
+    
+                
+           let soda = {  
+            softDrinkName: softDrinkName,
+            softDrinkPrice: softDrinkPrice,
+            softDrinkDescription:softDrinkDescription,
+     
+         }
+     
+       res.status(200).json({message: "Soda updated", soda});
+        
+        }}
+) }
+})
+
+
+
+
 
 
 module.exports=router;
