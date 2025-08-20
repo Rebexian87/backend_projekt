@@ -5,11 +5,13 @@ const sqlite3 = require("sqlite3").verbose();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 require("dotenv").config();
+const authenticateToken=require("../middelware/authenticateToken.js")
 
-
+//Connect to database
+const db = new sqlite3.Database(process.env.DATABASE);
 
 //Skapa ny flagga (POST)
-router.post ("/mainCourse", async (req, res) => {  //authenticateToken,
+router.post ("/mainCourse", authenticateToken,async (req, res) => {  //
     try {const {mainCourseName, mainCoursePrice, mainCourseDescription} = req.body;
     // let country = req.body.country;
     // let colors = req.body.colors;
@@ -26,8 +28,8 @@ router.post ("/mainCourse", async (req, res) => {  //authenticateToken,
     }
 
     if (!mainCourseName|| !mainCoursePrice ||!mainCourseDescription){
-        errors.message = "Country and colors not included";
-        errors.detail= "You must include colors and countrys in JSON"
+        errors.message = "name, price and description not included";
+        errors.detail= "You must include name, price and description in JSON"
 
         errors.https_response.message = "Bad Request";
         errors.https_response.code=400;
@@ -60,7 +62,7 @@ router.post ("/mainCourse", async (req, res) => {  //authenticateToken,
          res.status(200).json({message: "Maincourse added", mainCourse}); //flag
     }})
         }catch {
-            res.status(500).json ({error:"fel på flaggserver"})
+            res.status(500).json ({error:"fel på mainCOursseserver"})
         }
     });
 
@@ -86,6 +88,35 @@ router.get ("/mainCourses",async (req, res) => {  //authenticateToken,
     res.status(500).json ({error:"fel på starterserver"})
 }
 });
+
+
+router.get ("/mainCourse/:id", (req, res) => {
+    let id= req.params.id;
+    let sql=`SELECT * FROM mainCourse WHERE id=?`
+    
+    db.get(sql,[id], 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "mainCourse not found"+error});
+                return;
+            } 
+            if(results) {
+                 res.json(results);
+            }
+         
+            else {
+
+          
+            // console.log("Fråga hämtad: " + results);
+          
+     
+     
+       
+        
+    res.status(500).json ({error:"fel på mainCourseserver"})}
+} )}
+    
+);
 
 router.delete ("/mainCourse/:id", (req, res) => {
     let id= req.params.id;

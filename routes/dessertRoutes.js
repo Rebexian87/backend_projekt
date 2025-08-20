@@ -12,7 +12,7 @@ const db = new sqlite3.Database(process.env.DATABASE);
 
 
 //Skapa ny kaffesort (POST)
-router.post ("/dessert", async (req, res) => {  //authenticateToken,
+router.post ("/dessert", authenticateToken, async (req, res) => {  //authenticateToken,
     try {const {dessertName, dessertPrice, dessertDescription} = req.body;
     // let country = req.body.country;
     // let colors = req.body.colors;
@@ -90,6 +90,33 @@ router.post ("/dessert", async (req, res) => {  //authenticateToken,
 }
 });
 
+router.get ("/dessert/:id", (req, res) => {
+    let id= req.params.id;
+    let sql=`SELECT * FROM dessert WHERE id=?`
+    
+    db.get(sql,[id], 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "dessert not found"+error});
+                return;
+            } 
+            if(results) {
+                 res.json(results);
+            }
+         
+            else {
+
+          
+            // console.log("Fråga hämtad: " + results);
+          
+     
+     
+       
+        
+    res.status(500).json ({error:"fel på dessertserver"})}
+} )}
+    
+);
 
 router.delete ("/dessert/:id", (req, res) => {
     let id= req.params.id;

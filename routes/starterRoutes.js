@@ -14,11 +14,8 @@ const db = new sqlite3.Database(process.env.DATABASE);
 
 
 //Skapa ny starter (POST)
-router.post ("/starters", async (req, res) => {  //authenticateToken,
-    try {const {sName, sPrice, sDescription} = req.body;
-    // let country = req.body.country;
-    // let colors = req.body.colors;
- 
+router.post ("/starters", authenticateToken, async (req, res) => {  //authenticateToken,
+    try {const {sName, sPrice, sDescription} = req.body; 
 
     //error handling, felhanterare som skapar felmeddelande
 
@@ -71,7 +68,7 @@ router.post ("/starters", async (req, res) => {  //authenticateToken,
 
 
     
-        //Hämta alla flaggor (GET)
+        //Hämta alla starters (GET)
 router.get ("/starters",async (req, res) => {  //authenticateToken,
     try {
     
@@ -94,10 +91,38 @@ router.get ("/starters",async (req, res) => {  //authenticateToken,
 }
 });
 
+router.get ("/starters/:id", (req, res) => {
+    let id= req.params.id;
+    let sql=`SELECT * FROM starters WHERE id=?`
+    
+    db.get(sql,[id], 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "Starter not found"+error});
+                return;
+            } 
+            if(results) {
+                 res.json(results);
+            }
+         
+            else {
+
+          
+            // console.log("Fråga hämtad: " + results);
+          
+     
+     
+       
+        
+    res.status(500).json ({error:"fel på starterserver"})}
+} )}
+    
+);
+
 router.delete ("/starters/:id", (req, res) => {
     let id= req.params.id;
 
-    db.run(`DELETE FROM starters WHERE id=${id};`, 
+    db.run(`DELETE FROM starters WHERE id=?;`, [id], 
         (error, results) =>{
             if(error) {
                 res.status(500).json({error: "Starter not deleted"+error});
@@ -119,11 +144,7 @@ router.put ("/starters/:id", (req, res) => {
 
         const {sName, sPrice, sDescription} = req.body;
         const id= req.params.id;
-          
-    
-    // let sName = req.body.sName;
-    // let sPrice = req.body.sPrice;
-    // let sDescription = req.body.sDescription;
+  
 
        let errors= {
         message: "",

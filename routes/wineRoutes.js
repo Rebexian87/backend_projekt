@@ -92,6 +92,33 @@ router.get ("/wine",async (req, res) => {  //authenticateToken,
 }
 });
 
+router.get ("/wine/:id", (req, res) => {
+    let id= req.params.id;
+    let sql=`SELECT * FROM wine WHERE id=?`
+    
+    db.get(sql,[id], 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "dessert not found"+error});
+                return;
+            } 
+            if(results) {
+                 res.json(results);
+            }
+         
+            else {
+
+          
+            // console.log("Fråga hämtad: " + results);
+          
+     
+     
+       
+        
+    res.status(500).json ({error:"fel på wineserver"})}
+} )}
+    
+);
 
 
 router.delete ("/wine/:id", (req, res) => {
