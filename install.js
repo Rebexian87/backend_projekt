@@ -8,6 +8,8 @@ const db = new sqlite3.Database(process.env.DATABASE);
 
 // Create tables users
 
+
+/*
 db.serialize(() => {
 //Drop table 
 
@@ -107,10 +109,29 @@ db.run(`CREATE TABLE coffee(
 )`
 );
 console.log("8");
-});
+
+db.run(`CREATE TABLE reviews(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    reviewName VARCHAR(255) NOT NULL,
+    reviewDescription VARCHAR(355) NOT NULL,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP
+)`
+);
+console.log("9");
+});  */
 
 
 // ´Veckans/dagens/kopckens rekommendation ??
 
 
 //db.run (`INSERT INTO starters(sName, sPrice, sDescription) VALUES ("skagen", 179, "fgwkjha")`)
+
+
+db.run(`CREATE TABLE reviews(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    reviewName VARCHAR(255) NOT NULL,
+    reviewDescription VARCHAR(355) NOT NULL,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP
+)`
+);
+console.log("9");

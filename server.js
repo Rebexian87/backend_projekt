@@ -10,6 +10,7 @@ const coffeeRoutes=require("./routes/coffeeRoutes")
 const drinkAlkoholRoutes=require("./routes/drinkAlkoholRoutes")
 const softDrinksRoutes=require("./routes/softDrinksRoutes")
 const wineRoutes=require("./routes/wineRoutes")
+const reviewRoutes=require("./routes/reviewRoutes")
 const jwt = require("jsonwebtoken")
 const cors = require ("cors")
 const sqlite3 = require("sqlite3").verbose();
@@ -38,6 +39,7 @@ app.use("/api", coffeeRoutes);
 app.use("/api", drinkAlkoholRoutes);
 app.use("/api", softDrinksRoutes);
 app.use("/api", wineRoutes);
+app.use("/api", reviewRoutes);
 
 
 //Protected route
