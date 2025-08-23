@@ -91,6 +91,54 @@ router.get ("/reviews",async (req, res) => {
 });
 
 
+router.get ("/review/:id", (req, res) => {
+    let id= req.params.id;
+    let sql=`SELECT * FROM reviews WHERE id=?`
+    
+    db.get(sql,[id], 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "review not found"+error});
+                return;
+            } 
+            if(results) {
+                 res.json(results);
+            }
+         
+            else {
+
+          
+            // console.log("Fråga hämtad: " + results);
+          
+     
+     
+       
+        
+    res.status(500).json ({error:"fel på reviewserver"})}
+} )}
+    
+);
+
+router.delete ("/review/:id", (req, res) => {
+    let id= req.params.id;
+
+    db.run(`DELETE FROM reviews WHERE id=?;`, [id], 
+        (error, results) =>{
+            if(error) {
+                res.status(500).json({error: "Review not deleted"+error});
+                return;
+            }
+            console.log("Fråga delatad: " + results);
+          
+     
+     
+         res.json({message: "Review deleted:"+req.params.id});
+        })
+    
+});
+
+
+
 
 
 

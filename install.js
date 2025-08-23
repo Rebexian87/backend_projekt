@@ -127,11 +127,12 @@ console.log("9");
 //db.run (`INSERT INTO starters(sName, sPrice, sDescription) VALUES ("skagen", 179, "fgwkjha")`)
 
 
-db.run(`CREATE TABLE reviews(
+db.run(`CREATE TABLE contactUs(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     reviewName VARCHAR(255) NOT NULL,
+    reviewEmail VARCHAR(255) NOT NULL,
     reviewDescription VARCHAR(355) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
 );
-console.log("9");
+console.log("10");
