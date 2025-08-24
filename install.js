@@ -118,6 +118,18 @@ db.run(`CREATE TABLE reviews(
 )`
 );
 console.log("9");
+
+db.run(`CREATE TABLE contactUs(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    contactUsName VARCHAR(255) NOT NULL,
+    contactUsEmail VARCHAR(255) NOT NULL,
+    contactUsDescription VARCHAR(355) NOT NULL,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP
+)`
+);
+
+
+console.log("10");
 });  */
 
 
@@ -126,12 +138,13 @@ console.log("9");
 
 //db.run (`INSERT INTO starters(sName, sPrice, sDescription) VALUES ("skagen", 179, "fgwkjha")`)
 
+db.run("DROP TABLE IF EXISTS contactUs");
 
 db.run(`CREATE TABLE contactUs(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    reviewName VARCHAR(255) NOT NULL,
-    reviewEmail VARCHAR(255) NOT NULL,
-    reviewDescription VARCHAR(355) NOT NULL,
+    contactUsName VARCHAR(255) NOT NULL,
+    contactUsEmail VARCHAR(255) NOT NULL,
+    contactUsDescription VARCHAR(355) NOT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
 );
