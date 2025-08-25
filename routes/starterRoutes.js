@@ -105,21 +105,14 @@ router.get ("/starters/:id", (req, res) => {
                  res.json(results);
             }
          
-            else {
-
-          
-            // console.log("Fråga hämtad: " + results);
-          
-     
-     
-       
-        
+            else {          
+         
     res.status(500).json ({error:"fel på starterserver"})}
 } )}
     
 );
 
-router.delete ("/starters/:id", (req, res) => {
+router.delete ("/starters/:id", authenticateToken, (req, res) => {
     let id= req.params.id;
 
     db.run(`DELETE FROM starters WHERE id=?;`, [id], 
@@ -140,7 +133,7 @@ router.delete ("/starters/:id", (req, res) => {
 
 
 //Uppdatera starter för ett specifikt id (PUT)
-router.put ("/starters/:id", (req, res) => {
+router.put ("/starters/:id", authenticateToken, (req, res) => {
 
         const {sName, sPrice, sDescription} = req.body;
         const id= req.params.id;

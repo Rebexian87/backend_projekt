@@ -12,7 +12,7 @@ const db = new sqlite3.Database(process.env.DATABASE);
 
 
 //Skapa nytt vin (POST)
-router.post ("/wine", async (req, res) => {  //authenticateToken,
+router.post ("/wine", authenticateToken, async (req, res) => {  //authenticateToken,
     try {const {wineName, winePrice, winePrice2, wineDescription } = req.body;
     // let country = req.body.country;
     // let colors = req.body.colors;
@@ -55,10 +55,7 @@ router.post ("/wine", async (req, res) => {  //authenticateToken,
            wineName:wineName,
            winePrice:winePrice,
            winePrice2:winePrice2,
-           wineDescription:wineDescription
-          
-     
-         }
+           wineDescription:wineDescription }
      
      
          res.status(201).json({message: "Soda added", wine}); 
@@ -106,14 +103,8 @@ router.get ("/wine/:id", (req, res) => {
                  res.json(results);
             }
          
-            else {
-
-          
-            // console.log("Fråga hämtad: " + results);
-          
-     
-     
-       
+            else {         
+        
         
     res.status(500).json ({error:"fel på wineserver"})}
 } )}
@@ -121,7 +112,7 @@ router.get ("/wine/:id", (req, res) => {
 );
 
 
-router.delete ("/wine/:id", (req, res) => {
+router.delete ("/wine/:id", authenticateToken, (req, res) => {
     let id= req.params.id;
 
     db.run(`DELETE FROM wine WHERE id=${id};`, 
@@ -140,15 +131,11 @@ router.delete ("/wine/:id", (req, res) => {
 });
 
 //Uppdatera wine för ett specifikt id (PUT)
-router.put ("/wine/:id", (req, res) => {
+router.put ("/wine/:id", authenticateToken, (req, res) => {
 
         const {wineName,winePrice, winePrice2, wineDescription} = req.body;
         const id= req.params.id;
           
-    
-    // let sName = req.body.sName;
-    // let sPrice = req.body.sPrice;
-    // let sDescription = req.body.sDescription;
 
        let errors= {
         message: "",

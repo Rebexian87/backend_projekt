@@ -13,8 +13,6 @@ const db = new sqlite3.Database(process.env.DATABASE);
 //Skapa ny flagga (POST)
 router.post ("/mainCourse", authenticateToken,async (req, res) => {  //
     try {const {mainCourseName, mainCoursePrice, mainCourseDescription} = req.body;
-    // let country = req.body.country;
-    // let colors = req.body.colors;
  
 
     //error handling, felhanterare som skapar felmeddelande
@@ -67,7 +65,7 @@ router.post ("/mainCourse", authenticateToken,async (req, res) => {  //
     });
 
                     //Hämta alla mainCourses (GET)
-router.get ("/mainCourses",async (req, res) => {  //authenticateToken,
+router.get ("/mainCourses", async (req, res) => {  //authenticateToken,
     try {
     
      db.all("SELECT * FROM mainCourse ORDER BY mainCourseName;", (error,results)=> {
@@ -106,19 +104,14 @@ router.get ("/mainCourse/:id", (req, res) => {
          
             else {
 
-          
-            // console.log("Fråga hämtad: " + results);
-          
-     
-     
-       
+
         
     res.status(500).json ({error:"fel på mainCourseserver"})}
 } )}
     
 );
 
-router.delete ("/mainCourse/:id", (req, res) => {
+router.delete ("/mainCourse/:id", authenticateToken, (req, res) => {
     let id= req.params.id;
 
     db.run(`DELETE FROM mainCourse WHERE id=${id};`, 
@@ -138,15 +131,11 @@ router.delete ("/mainCourse/:id", (req, res) => {
 
 
 //Uppdatera mainCourse för ett specifikt id (PUT)
-router.put ("/mainCourse/:id", (req, res) => {
+router.put ("/mainCourse/:id", authenticateToken, (req, res) => {
 
         const {mainCourseName, mainCoursePrice, mainCourseDescription} = req.body;
         const id= req.params.id;
           
-    
-    // let sName = req.body.sName;
-    // let sPrice = req.body.sPrice;
-    // let sDescription = req.body.sDescription;
 
        let errors= {
         message: "",

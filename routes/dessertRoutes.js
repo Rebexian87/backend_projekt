@@ -118,7 +118,7 @@ router.get ("/dessert/:id", (req, res) => {
     
 );
 
-router.delete ("/dessert/:id", (req, res) => {
+router.delete ("/dessert/:id", authenticateToken,(req, res) => {
     let id= req.params.id;
 
     db.run(`DELETE FROM dessert WHERE id=${id};`, 
@@ -138,7 +138,7 @@ router.delete ("/dessert/:id", (req, res) => {
 
 
 //Uppdatera dessert för ett specifikt id (PUT)
-router.put ("/dessert/:id", (req, res) => {
+router.put ("/dessert/:id", authenticateToken,(req, res) => {
 
         const {dessertName, dessertPrice, dessertDescription} = req.body;
         const id= req.params.id;
