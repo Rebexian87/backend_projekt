@@ -89,7 +89,7 @@ router.get ("/softDrink",async (req, res) => {  //authenticateToken,
 }
 });
 
-router.delete ("/softDrink/:id", (req, res) => {
+router.delete ("/softDrink/:id", authenticateToken,(req, res) => {
     let id= req.params.id;
 
     db.run(`DELETE FROM softDrinks WHERE id=${id};`, 
@@ -109,7 +109,7 @@ router.delete ("/softDrink/:id", (req, res) => {
 
 
 //Uppdatera softDrink för ett specifikt id (PUT)
-router.put ("/softDrink/:id", (req, res) => {
+router.put ("/softDrink/:id", authenticateToken,(req, res) => {
 
         const {softDrinkName, softDrinkPrice, softDrinkDescription} = req.body;
         const id= req.params.id;

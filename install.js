@@ -9,7 +9,6 @@ const db = new sqlite3.Database(process.env.DATABASE);
 // Create tables users
 
 
-/*
 db.serialize(() => {
 //Drop table 
 
@@ -21,14 +20,17 @@ db.run("DROP TABLE IF EXISTS mainCourse");
 
 db.run("DROP TABLE IF EXISTS dessert");
 
-
 db.run("DROP TABLE IF EXISTS drinkAlkohol");
 
 db.run("DROP TABLE IF EXISTS wine");
+
 db.run("DROP TABLE IF EXISTS softDrinks");
 
-
 db.run("DROP TABLE IF EXISTS coffee");
+
+db.run("DROP TABLE IF EXISTS reviews");
+
+db.run("DROP TABLE IF EXISTS contactUs");
 
 
 //Create table, bra med id så man inte behöver använda användarnamnet när man pratar om sina användare
@@ -130,22 +132,22 @@ db.run(`CREATE TABLE contactUs(
 
 
 console.log("10");
-});  */
+});  
 
 
 // ´Veckans/dagens/kopckens rekommendation ??
 
 
-//db.run (`INSERT INTO starters(sName, sPrice, sDescription) VALUES ("skagen", 179, "fgwkjha")`)
 
-db.run("DROP TABLE IF EXISTS contactUs");
 
-db.run(`CREATE TABLE contactUs(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    contactUsName VARCHAR(255) NOT NULL,
-    contactUsEmail VARCHAR(255) NOT NULL,
-    contactUsDescription VARCHAR(355) NOT NULL,
-    created DATETIME DEFAULT CURRENT_TIMESTAMP
-)`
-);
-console.log("10");
+// db.run("DROP TABLE IF EXISTS contactUs");
+
+// db.run(`CREATE TABLE contactUs(
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     contactUsName VARCHAR(255) NOT NULL,
+//     contactUsEmail VARCHAR(255) NOT NULL,
+//     contactUsDescription VARCHAR(355) NOT NULL,
+//     created DATETIME DEFAULT CURRENT_TIMESTAMP
+// )`
+// );
+// console.log("10");

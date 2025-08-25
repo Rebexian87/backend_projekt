@@ -19,10 +19,9 @@ router.post("/register", async (req, res) => {
 
         //Validering
         if (!username || !password || !email) {
-            return res.status(400).json({error: "username or password is incorrect, password needs to be ... etc"});            
+            return res.status(400).json({error: "username, password or email is incorrect are required"});            
         }
-        // Does user already exists? Felmeddelande!!
-
+        
         //Hash password
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -31,6 +30,10 @@ router.post("/register", async (req, res) => {
         const sql = `INSERT INTO users(username, password, email) VALUES(?,?,?)`
         db.run (sql, [username, hashedPassword, email], (error) => {
             if (error) {
+                     //Error if you try to create a user with the same usernamn
+                    if(error.code=="SQLITE_CONSTRAINT") {
+                        return res.status(400).json({error: "ANändarnamn är upptaget"}); 
+                    }
                      res.status(400).json({error: "Fel när användare läggs till"});
             } else {
                    res.status(201).json({message: "User created"});
@@ -51,11 +54,10 @@ router.post("/login", async (req, res) => {
 
         //Validering
         if (!username || !password) {
-            return res.status(400).json({error: "username or password is incorrect, password needs to be ... etc"});            
+            return res.status(400).json({error: "username or password is incorrect are required"});            
         }
 
-   
-        //Check credentials
+       
 
         //Check if user exists
         const sql = `SELECT * FROM users WHERE username=?`;
