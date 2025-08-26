@@ -6,7 +6,10 @@ Grundläggande funktionalitet för CRUD (Create, Read, Update, Delete) är imple
 ## Installation, databas
 APIet använder en MySQL-databas.
 Klona ner källkodsfilerna, kör kommando npm install för att installera nödvändiga npm-paket. Kör installations-skriptet install.js. 
-Ett exempel på vad installations-skriptet kan skapa för databastabell enligt nedanstående, denna kod är bortkommenterad men man kan göra den aktiv om man vill.
+Ett exempel på vad installations-skriptet kan skapa för databastabell enligt nedanstående, denna kod är bortkommenterad men man kan göra den aktiv om man vill. 
+
+Det finns 10 olika tabeller i installationsfilen. 
+
 |Tabell-namn|Fält  |
 |--|--|
 |Tabell1  | **id** (int, **fält1** (varchar(35), **fält2** (integer,  **fält3** (varchar(35) |
